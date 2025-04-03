@@ -1,15 +1,81 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+#calculator {
+  width: 220px;
+  margin: auto;
+  text-align: center;
+  border: 2px solid #333;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f8f8f8;
+}
+
+#display {
+  width: 93%;
+  height: 40px;
+  font-size: 24px;
+  text-align: right;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4列 */
+  gap: 5px; /* ボタン間のスペース */
+}
+
+button {
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #bbb;
+}
+
+/* ✅ Cボタンを3マス使う */
+.clear {
+  grid-column: span 3;
+  background: #ff6666;
+  color: white;
+  font-weight: bold;
+}
+
+/* ✅ トグルボタンをCの横に配置 */
+.switch_outer {
+  width: 50px;
+  height: 25px;
+  background-color: lightgray;
+  border-radius: 15px;
+  position: relative;
+  transition: background-color .2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-column: span 1; /* 1マス使う */
+}
+
+.switch_outer.active {
+  background-color: rgb(153, 211, 67);
+}
+
+.toggle_switch {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  transition: left .3s ease-in-out;
+}
+
+.toggle_switch.active {
+  left: 27px;
+}
