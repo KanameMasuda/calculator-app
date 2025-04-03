@@ -39,17 +39,18 @@ button:hover {
   background: #bbb;
 }
 
-/* ✅ Cボタンを3マス使う */
+/* ✅ Cボタンを1マスに変更 */
 .clear {
-  grid-column: span 3;
+  grid-column: span 1;
   background: #ff6666;
   color: white;
   font-weight: bold;
+  width: 100%;
 }
 
-/* ✅ トグルボタンをCの横に配置 */
+/* ✅ トグルボタンの幅を2マスに変更 */
 .switch_outer {
-  width: 50px;
+  width: 70px;
   height: 25px;
   background-color: lightgray;
   border-radius: 15px;
@@ -58,24 +59,33 @@ button:hover {
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  grid-column: span 1; /* 1マス使う */
+  justify-content: space-between;
+  grid-column: span 2; /* 2マス使う */
+  padding: 0 5px;
 }
 
 .switch_outer.active {
-  background-color: rgb(153, 211, 67);
+  background-color: #99d343; /* グリーン */
 }
 
+/* ✅ トグルボタンの動き */
 .toggle_switch {
   width: 20px;
   height: 20px;
   background-color: white;
   border-radius: 50%;
   position: absolute;
-  left: 3px;
+  left: 30px;
   transition: left .3s ease-in-out;
 }
 
 .toggle_switch.active {
-  left: 27px;
+  left: 56px;
+}
+
+/* ✅ ♪のデザイン */
+.music-note {
+  font-size: 16px;
+  color: #333;
+  margin-left: 5px;
 }

@@ -24,13 +24,14 @@
       <button onclick="calculate()">=</button>
       <button onclick="press('+')">+</button>
 
-      <!-- ✅ Cボタン（3マス） + トグルボタン（1マス） -->
+      <!-- ✅ Cボタン（1マス） + トグルボタン（2マス） -->
       <button onclick="clearDisplay()" class="clear">C</button>
-        <div class="switch_outer">
-          <div class="toggle_switch"></div>
-        </div>
+      <div class="switch_outer">
+        <div class="toggle_switch"></div>
+        <span class="music-note">♪</span>
+      </div>
     </div>
-  </div>
+</div>
 
 <script>
   const switchOuter = document.querySelector(".switch_outer");
