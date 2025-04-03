@@ -55,18 +55,21 @@
 
   // ✅ JavaScriptファイルを読み込む関数
   function loadScript(filename) {
-    // すでに読み込まれているスクリプトを削除
-    let existingScript = document.getElementById("dynamicScript");
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    // 新しいスクリプトを作成
-    let script = document.createElement("script");
-    script.src = filename;
-    script.id = "dynamicScript";
-    script.onload = () => console.log(`${filename} がロードされました`);
-    
-    document.body.appendChild(script);
+  let existingScript = document.getElementById("dynamicScript");
+  
+  if (existingScript) {
+    console.log(`削除: ${existingScript.src}`);
+    existingScript.remove();
   }
+
+  let script = document.createElement("script");
+  script.src = filename;
+  script.id = "dynamicScript";
+  script.onload = () => {
+    console.log(`${filename} がロードされました`);
+    console.log(`現在の clickSound:`, window.clickSound);
+  };
+
+  document.body.appendChild(script);
+}
 </script>

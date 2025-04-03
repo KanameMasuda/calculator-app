@@ -1,5 +1,10 @@
 // 音声ファイルをロード
-const clickSound = new Audio('/audio/click-sound1.mp3'); // 音声ファイルのパス
+if (!window.clickSound) {
+  window.clickSound = new Audio('/audio/click-sound1.mp3');
+  console.log("clickSound が初期化されました");
+} else {
+  console.log("clickSound はすでに存在します");
+}
 
 function press(val) {
   document.getElementById("display").value += val;
