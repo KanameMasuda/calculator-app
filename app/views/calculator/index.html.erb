@@ -1,2 +1,72 @@
-<h1>Calculator#index</h1>
-<p>Find me in app/views/calculator/index.html.erb</p>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@14.4.0/lib/browser/math.min.js"></script>
+
+
+<div id="calculator">
+    <input type="text" id="display" readonly>
+    <div id="buttons">
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('/')">/</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('*')">*</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('-')">-</button>
+
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="press('+')">+</button>
+
+      <!-- ✅ Cボタン（3マス） + トグルボタン（1マス） -->
+      <button onclick="clearDisplay()" class="clear">C</button>
+        <div class="switch_outer">
+          <div class="toggle_switch"></div>
+        </div>
+    </div>
+  </div>
+
+<script>
+  const switchOuter = document.querySelector(".switch_outer");
+  const toggleSwitch = document.querySelector(".toggle_switch");
+
+  // ✅ アプリ起動時に calculator_off.js を読み込む
+  document.addEventListener("DOMContentLoaded", () => {
+    loadScript("calculator_off.js");
+  });
+
+  switchOuter.addEventListener("click", () => {
+    switchOuter.classList.toggle("active");
+    toggleSwitch.classList.toggle("active");
+
+    // トグルボタンの状態をチェックしてスクリプトを切り替える
+    if (switchOuter.classList.contains("active")) {
+      loadScript("calculator_01.js");  // ON時に実行
+    } else {
+      loadScript("calculator_off.js"); // OFF時に実行
+    }
+  });
+
+  // ✅ JavaScriptファイルを読み込む関数
+  function loadScript(filename) {
+    // すでに読み込まれているスクリプトを削除
+    let existingScript = document.getElementById("dynamicScript");
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // 新しいスクリプトを作成
+    let script = document.createElement("script");
+    script.src = filename;
+    script.id = "dynamicScript";
+    script.onload = () => console.log(`${filename} がロードされました`);
+    
+    document.body.appendChild(script);
+  }
+</script>
