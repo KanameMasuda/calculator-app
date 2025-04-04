@@ -1,29 +1,21 @@
-// 音声ファイルをロード
+// 音声ファイルをロード（1種類だけ）
 if (!window.clickSound1) {
   window.clickSound1 = new Audio('/audio/click-sound1.mp3');
-  window.clickSound1.load(); // 音声ファイルをロード
+  window.clickSound1.load();
   console.log("clickSound1 が初期化されました");
 } else {
   console.log("clickSound1 はすでに存在します");
 }
 
-if (!window.clickSound2) {
-  window.clickSound2 = new Audio('/audio/click-sound2.mp3');
-  window.clickSound2.load(); // 音声ファイルをロード
-  console.log("clickSound2 が初期化されました");
-} else {
-  console.log("clickSound2 はすでに存在します");
-}
-
 function press(val) {
   document.getElementById("display").value += val;
-  window.clickSound1.play(); // ボタンが押されたときにclickSound1を鳴らす
+  window.clickSound1.play();
   console.log(`ボタンが押されました: ${val}`);
 }
 
 function clearDisplay() {
   document.getElementById("display").value = "";
-  window.clickSound1.play(); // クリアボタンを押したときもclickSound1を鳴らす
+  window.clickSound1.play();
   console.log("クリアボタンが押されました");
 }
 
@@ -32,7 +24,7 @@ function calculate() {
   try {
     let result = math.evaluate(expression);
     document.getElementById("display").value = result;
-    window.clickSound2.play(); // 計算結果が表示されたときにclickSound2を鳴らす
+    window.clickSound1.play(); // ← sound2 ではなく sound1 に統一
     console.log(`計算結果: ${result}`);
   } catch (e) {
     console.error("計算エラー:", e);
@@ -42,14 +34,14 @@ function calculate() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const display = document.getElementById("display"); // 表示部分
-  const buttons = document.querySelectorAll(".btn"); // ボタン
+  const display = document.getElementById("display");
+  const buttons = document.querySelectorAll(".btn");
 
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
-      const value = button.dataset.value; // data-value から値を取得
-      display.textContent += value; // 表示部分に追加
-      window.clickSound1.play(); // ボタンをクリックしたときにclickSound1を鳴らす
+      const value = button.dataset.value;
+      display.textContent += value;
+      window.clickSound1.play();
       console.log(`ボタンがクリックされました: ${value}`);
     });
   });
