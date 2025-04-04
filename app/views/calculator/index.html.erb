@@ -24,53 +24,82 @@
       <button onclick="calculate()">=</button>
       <button onclick="press('+')">+</button>
 
-      <!-- ✅ Cボタン（1マス） + トグルボタン（2マス） -->
+      <!-- ✅ Cボタン（1マス）+ ダミーボタン（2マス）+ ♪ボタン（1マス） -->
       <button onclick="clearDisplay()" class="clear">C</button>
-      <div class="switch_outer">
-        <div class="toggle_switch"></div>
-        <span class="music-note">♪</span>
+
+      <!-- ✅ ダミーボタン（機能なし） -->
+      <button class="dummy-btn"></button>
+      <button class="dummy-btn"></button>
+
+      <!-- ✅ ♪ボタン -->
+      <div class="sound-container">
+        <button class="sound-btn">♪</button>
+        <div class="sound-menu">
+          <button onclick="toggleSound(true)">OFF</button>
+          <button onclick="toggleSound(false)">Sound1</button>
+          <button onclick="toggleSound(false)">Sound2</button>
+        </div>
       </div>
     </div>
 </div>
 
 <script>
-  const switchOuter = document.querySelector(".switch_outer");
-  const toggleSwitch = document.querySelector(".toggle_switch");
-
-  // ✅ アプリ起動時に calculator_off.js を読み込む
-  document.addEventListener("DOMContentLoaded", () => {
-    loadScript("calculator_off.js");
-  });
-
-  switchOuter.addEventListener("click", () => {
-    switchOuter.classList.toggle("active");
-    toggleSwitch.classList.toggle("active");
-
-    // トグルボタンの状態をチェックしてスクリプトを切り替える
-    if (switchOuter.classList.contains("active")) {
-      loadScript("calculator_01.js");  // ON時に実行
-    } else {
-      loadScript("calculator_off.js"); // OFF時に実行
+  // ✅ 初期状態で calculator_off.js をロード
+  function loadScript(scriptName) {
+    const existingScript = document.getElementById("calculator-script");
+    if (existingScript) {
+      existingScript.remove(); // 既存のスクリプトを削除
     }
-  });
 
-  // ✅ JavaScriptファイルを読み込む関数
-  function loadScript(filename) {
-  let existingScript = document.getElementById("dynamicScript");
-  
-  if (existingScript) {
-    console.log(`削除: ${existingScript.src}`);
-    existingScript.remove();
+    const script = document.createElement("script");
+    script.src = `/${scriptName}`; // 修正: スラッシュを追加して、public フォルダ直下を参照
+    script.id = "calculator-script"; // 一意のIDを設定
+    document.body.appendChild(script);
   }
 
-  let script = document.createElement("script");
-  script.src = filename;
-  script.id = "dynamicScript";
-  script.onload = () => {
-    console.log(`${filename} がロードされました`);
-    console.log(`現在の clickSound:`, window.clickSound);
-  };
+  document.addEventListener("DOMContentLoaded", () => {
+    loadScript("calculator_off.js"); // 初回ロード時に calculator_off.js を読み込む
 
-  document.body.appendChild(script);
-}
+    const soundBtn = document.querySelector(".sound-btn");
+    const soundMenu = document.querySelector(".sound-menu");
+
+    // ✅ ♪ボタンをクリックでプルダウン表示/非表示を切り替え
+    soundBtn.addEventListener("click", () => {
+      soundMenu.style.display = soundMenu.style.display === "block" ? "none" : "block";
+    });
+
+    // ✅ サウンド切り替えボタンの処理
+    document.querySelector(".sound-menu button:nth-child(1)").addEventListener("click", () => {
+      loadScript("calculator_off.js"); // OFF を選択したとき
+    });
+
+    document.querySelector(".sound-menu button:nth-child(2)").addEventListener("click", () => {
+      loadScript("calculator_01.js"); // Sound1 を選択したとき
+    });
+
+    document.querySelector(".sound-menu button:nth-child(3)").addEventListener("click", () => {
+      loadScript("calculator_02.js"); // Sound2 を選択したとき
+    });
+
+    // ✅ メニュー外をクリックしたら閉じる
+    document.addEventListener("click", (event) => {
+      if (!soundBtn.contains(event.target) && !soundMenu.contains(event.target)) {
+        soundMenu.style.display = "none";
+      }
+    });
+  });
+
+  // ✅ toggleSound 関数を定義
+  function toggleSound(mode) {
+    if (mode === "OFF") {
+      console.log("スクリプトOFF: calculator_off.js をロード");
+      loadScript("calculator_off.js"); // OFF を選択したとき
+    } else if (mode === "1") {
+      console.log("スクリプトON: calculator_01.js をロード");
+      loadScript("calculator_01.js"); // Sound1 を選択したとき
+    } else if (mode === "2") {
+      console.log("スクリプトON: calculator_02.js をロード");
+      loadScript("calculator_02.js"); // Sound2 を選択したとき
+    }
+  }
 </script>
