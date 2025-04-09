@@ -59,10 +59,7 @@ button:hover {
   pointer-events: none;
 }
 
-/* ✅ ホバー時のスタイル変更を無効化 */
-.dummy-btn:hover {
-  background: #f8f8f8; /* 何も変化させない */
-}
+
 
 /* ✅ Cボタンの横に♪ボタンを配置 */
 .sound-container {
@@ -101,7 +98,7 @@ button:hover {
 
 .sound-menu button {
   width: 100%;
-  padding: 8px;
+  padding: 2px;
   border: none;
   background: white;
   cursor: pointer;
@@ -111,3 +108,52 @@ button:hover {
 .sound-menu button:hover {
   background: #f0f0f0;
 }
+
+.sound-menu-btn {
+  height: 15px;
+}
+
+/* 親要素を相対位置にして、子要素の位置を基準に */
+.game-container {
+  position: relative;
+}
+
+/* プルダウンメニューのスタイル */
+.game-selector {
+  display: none; /* 初期状態は非表示 */
+  position: absolute; /* Gボタンを基準に絶対位置 */
+  top: 100%; /* ボタンの真下に配置 */
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100px;
+  z-index: 100; /* 他の要素の上に表示 */
+  margin-top: 5px; /* ボタンとの間隔 */
+}
+
+.game-selector button {
+  padding: 3px;
+  padding-bottom: 15px;
+  font-size: 10px;
+  border: none;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.game-selector button:hover {
+  background-color: #f4f8f4;
+}
+
+.game-btn {
+  background-color: #f0f0f0;
+  border: 1px solid rgb(180, 179, 179);
+}
+
+.multiplication-btn {
+  height: 15px;
+}
+

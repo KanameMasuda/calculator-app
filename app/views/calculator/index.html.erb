@@ -1,105 +1,71 @@
-<script src="https://cdn.jsdelivr.net/npm/mathjs@14.4.0/lib/browser/math.min.js"></script>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電卓</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://cdn.jsdelivr.net/npm/mathjs@14.4.0/lib/browser/math.min.js"></script>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="display" readonly>
+        <input type="text" id="answer" style="display:none;">
+        <div id="result" style="display:none;"></div>
+        <div id="buttons">
+          <button data-value="7" class="btn">7</button>
+          <button data-value="8" class="btn">8</button>
+          <button data-value="9" class="btn">9</button>
+          <button data-value="/" class="btn">/</button>
 
+          <button data-value="4" class="btn">4</button>
+          <button data-value="5" class="btn">5</button>
+          <button data-value="6" class="btn">6</button>
+          <button data-value="*" class="btn">*</button>
 
-<div id="calculator">
-    <input type="text" id="display" readonly>
-    <div id="buttons">
-      <button onclick="press('7')">7</button>
-      <button onclick="press('8')">8</button>
-      <button onclick="press('9')">9</button>
-      <button onclick="press('/')">/</button>
+          <button data-value="1" class="btn">1</button>
+          <button data-value="2" class="btn">2</button>
+          <button data-value="3" class="btn">3</button>
+          <button data-value="-" class="btn">-</button>
 
-      <button onclick="press('4')">4</button>
-      <button onclick="press('5')">5</button>
-      <button onclick="press('6')">6</button>
-      <button onclick="press('*')">*</button>
+          <button data-value="0" class="btn">0</button>
+          <button data-value="." class="btn">.</button>
+          <button id="equal-btn">=3</button>
+          <button data-value="+" class="btn">+</button>
 
-      <button onclick="press('1')">1</button>
-      <button onclick="press('2')">2</button>
-      <button onclick="press('3')">3</button>
-      <button onclick="press('-')">-</button>
+          <button id="clear-btn" class="clear">C</button>
 
-      <button onclick="press('0')">0</button>
-      <button onclick="press('.')">.</button>
-      <button onclick="calculate()">=</button>
-      <button onclick="press('+')">+</button>
-
-      <!-- ✅ Cボタン（1マス）+ ダミーボタン（2マス）+ ♪ボタン（1マス） -->
-      <button onclick="clearDisplay()" class="clear">C</button>
-
-      <!-- ✅ ダミーボタン（機能なし） -->
-      <button class="dummy-btn"></button>
-      <button class="dummy-btn"></button>
-
-      <!-- ✅ ♪ボタン -->
-      <div class="sound-container">
-        <button class="sound-btn">♪</button>
-        <div class="sound-menu">
-          <button onclick="toggleSound(true)">OFF</button>
-          <button onclick="toggleSound(false)">Sound1</button>
-          <button onclick="toggleSound(false)">Sound2</button>
+          <button class="dummy-btn"></button>
+          <div class="game-container">
+            <button class="game-btn">g</button>
+            <div class="game-selector style="display: block;">
+              <button class="multiplication-btn" data-mode="1">1の段</button>
+              <button class="multiplication-btn" data-mode="2">2の段</button>
+              <button class="multiplication-btn" data-mode="3">3の段</button>
+              <button class="multiplication-btn" data-mode="4">4の段</button>
+              <button class="multiplication-btn" data-mode="5">5の段</button>
+              <button class="multiplication-btn" data-mode="6">6の段</button>
+              <button class="multiplication-btn" data-mode="7">7の段</button>
+              <button class="multiplication-btn" data-mode="8">8の段</button>
+              <button class="multiplication-btn" data-mode="9">9の段</button>
+              <button class="multiplication-btn" data-mode="random">ランダム</button>
+              <button id="blackbeard-btn">黒ひげ危機一発</button>
+            </div>
+          </div>
+          <div class="sound-container">
+            <button class="sound-btn">♪</button>
+            <div class="sound-menu">
+              <button class="sound-menu-btn" onclick="toggleSoundMode('OFF')">OFF</button>
+              <button class="sound-menu-btn" onclick="toggleSoundMode('1')">Sound1</button>
+              <button class="sound-menu-btn" onclick="toggleSoundMode('2')">Sound2</button>
+            </div>
+          </div>
         </div>
-      </div>
     </div>
-</div>
 
-<script>
-  // ✅ 初期状態で calculator_off.js をロード
-  function loadScript(scriptName) {
-    const existingScript = document.getElementById("calculator-script");
-    if (existingScript) {
-      existingScript.remove(); // 既存のスクリプトを削除
-    }
+    <audio id="clickSound1" src="/audio/click-sound1.mp3"></audio>
+    <audio id="clickSound2" src="/audio/click-sound2.mp3"></audio>
 
-    const script = document.createElement("script");
-    script.src = `/${scriptName}`; // 修正: スラッシュを追加して、public フォルダ直下を参照
-    script.id = "calculator-script"; // 一意のIDを設定
-    document.body.appendChild(script);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadScript("calculator_off.js"); // 初回ロード時に calculator_off.js を読み込む
-
-    const soundBtn = document.querySelector(".sound-btn");
-    const soundMenu = document.querySelector(".sound-menu");
-
-    // ✅ ♪ボタンをクリックでプルダウン表示/非表示を切り替え
-    soundBtn.addEventListener("click", () => {
-      soundMenu.style.display = soundMenu.style.display === "block" ? "none" : "block";
-    });
-
-    // ✅ サウンド切り替えボタンの処理
-    document.querySelector(".sound-menu button:nth-child(1)").addEventListener("click", () => {
-      loadScript("calculator_off.js"); // OFF を選択したとき
-    });
-
-    document.querySelector(".sound-menu button:nth-child(2)").addEventListener("click", () => {
-      loadScript("calculator_01.js"); // Sound1 を選択したとき
-    });
-
-    document.querySelector(".sound-menu button:nth-child(3)").addEventListener("click", () => {
-      loadScript("calculator_02.js"); // Sound2 を選択したとき
-    });
-
-    // ✅ メニュー外をクリックしたら閉じる
-    document.addEventListener("click", (event) => {
-      if (!soundBtn.contains(event.target) && !soundMenu.contains(event.target)) {
-        soundMenu.style.display = "none";
-      }
-    });
-  });
-
-  // ✅ toggleSound 関数を定義
-  function toggleSound(mode) {
-    if (mode === "OFF") {
-      console.log("スクリプトOFF: calculator_off.js をロード");
-      loadScript("calculator_off.js"); // OFF を選択したとき
-    } else if (mode === "1") {
-      console.log("スクリプトON: calculator_01.js をロード");
-      loadScript("calculator_01.js"); // Sound1 を選択したとき
-    } else if (mode === "2") {
-      console.log("スクリプトON: calculator_02.js をロード");
-      loadScript("calculator_02.js"); // Sound2 を選択したとき
-    }
-  }
-</script>
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>
