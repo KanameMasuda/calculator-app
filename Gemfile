@@ -71,3 +71,4 @@ group :production do
 end
 
 gem "nokogiri", force_ruby_platform: true
+gem "mysql2", "~> 0.5"
