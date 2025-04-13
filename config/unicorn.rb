@@ -11,7 +11,7 @@ working_directory app_path
 pid "#{app_path}/tmp/pids/unicorn.pid"
 
 #ポート番号を指定
-listen "/var/www/calculator-app/tmp/sockets/unicorn.sock"
+listen "#{app_path}/tmp/sockets/unicorn.sock"
 
 #
 #エラーのログを記録するファイルを指定
